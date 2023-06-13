@@ -16,15 +16,15 @@ buttonEl.addEventListener('click', addGoal);
 */
 
 Vue.createApp({
-    data() {
-        return {
-            goals: [],
-            enteredValue: ''
-        };
+  data() {
+    return {
+      goals: [],
+      enteredValue: "",
+    };
+  },
+  methods: {
+    addGoal() {
+      this.goals.push(this.enteredValue);
     },
-    methods: {
-        addGoal() {
-            this.goals.push(this.enteredValue);
-        }
-    }
-}).mount('#app');
+  },
+}).mount("#app");
