@@ -18,9 +18,18 @@
     </header>
     <section id="events">
       <h2>Events in Action</h2>
-      <button>Add</button>
-      <button>Remove</button>
+      <button v-on:click="addCounter()">Add</button>
+      <button v-on:click="addCounter(5)">Add 5</button>
+      <button v-on:click="substractCounter()">Remove</button>
+      <button v-on:click.right="substractCounter(5)">Remove 5</button>
       <p>Result: {{ counter }}</p>
+      <input type="text" v-on:input="setName($event, 'Bohac')" />
+      <p>Your name: {{ name }}</p>
+
+      <form v-on:submit.prevent="submitForm">
+        <input type="text"/>
+        <button>Sign Up</button>
+      </form>
     </section>
   </body>
 </html>
