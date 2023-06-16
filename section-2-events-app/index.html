@@ -23,8 +23,16 @@
       <button v-on:click="substractCounter()">Remove</button>
       <button v-on:click.right="substractCounter(5)">Remove 5</button>
       <p>Result: {{ counter }}</p>
-      <input type="text" v-on:input="setName($event, 'Bohac')" />
-      <p>Your name: {{ name }}</p>
+      <p>
+        <input type="text" v-bind:value="name" v-on:input="setName" />  
+      </p>
+      <p>
+        <input type="text" v-model="anotherName"/>
+      </p>      
+      <p>Your name: {{ fullName }}</p>
+      <p>
+        <button v-on:click="resetInput">Reset input</button>
+      </p>      
 
       <form v-on:submit.prevent="submitForm">
         <input type="text"/>
