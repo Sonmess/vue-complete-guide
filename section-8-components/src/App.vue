@@ -3,9 +3,19 @@
     <header>
       <h1>My Friends</h1>
     </header>
+    <friend-add @add-contact="addContact" />
     <ul>
-      <friend-contact></friend-contact>
-      <friend-contact></friend-contact>
+      <friend-contact
+        v-for="item of friends"
+        :key="item.id"
+        :identifier="item.id"
+        :name="item.name"
+        :phone-number="item.phone"
+        :email-address="item.email"
+        :is-favorite="item.favorite"
+        @toggle-favorite="toggleFavorite"
+        @delete-friend="deleteContact"
+      />
     </ul>
   </section>
 </template>
@@ -20,16 +30,41 @@ export default {
           name: "Manuel Lorenz",
           phone: "0123 45678 90",
           email: "manuel@localhost.com",
+          favorite: true,
         },
         {
           id: "julie",
           name: "Julie Jones",
           phone: "0987 654421 21",
           email: "julie@localhost.com",
+          favorite: false,
         },
       ],
     };
   },
+  methods: {
+    toggleFavorite(friendId) {
+      const friend = this.friends.find((friend) => {
+        return friend.id === friendId;
+      });
+      friend.favorite = !friend.favorite;
+    },
+    addContact(name, phone, email) {
+      const newFriend = {
+        id: new Date().toISOString() + '-' + phone.toLowerCase(),
+        name: name,
+        phone: phone,
+        email: email,
+        favorite: false
+      };
+      this.friends.push(newFriend);
+    },
+    deleteContact(friendId) {
+      this.friends = this.friends.filter((item) => {
+        return item.id !== friendId;
+      });
+    }
+  }
 };
 </script>
 
@@ -88,5 +123,26 @@ header {
   background-color: #ec3169;
   border-color: #ec3169;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+}
+#app input {
+  font: inherit;
+  padding: 0.15rem;
+}
+#app label {
+  font-weight: bold;
+  margin-right: 1rem;
+  width: 7rem;
+  display: inline-block;
+}
+#app form div {
+  margin: 1rem 0;
+}
+#app form {
+  text-align: center;
+  border: 2px solid #58004d;
+  border-radius: 5px;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 1rem 0;
 }
 </style>
