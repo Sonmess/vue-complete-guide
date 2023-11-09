@@ -16,11 +16,17 @@
     </div>
 
     <button @click="setNewAge">Set age</button>
+
+    <div>
+      <h3>Name: {{ computedName }}</h3>
+      <input type="text" placeholder="First name" @input="setFirstName" />
+      <input type="text" placeholder="Last name" v-model="lastName" />
+    </div>
   </section>
 </template>
 
 <script>
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed, watch } from 'vue';
 export default {
   // data() {
   //   return {
@@ -33,15 +39,22 @@ export default {
 
     const user = ref({
       name: 'Keko',
-      age: 9
+      age: 9,
     });
 
     const user2 = reactive({
       name: 'Marek',
-      age: 59
+      age: 59,
     });
 
-    setTimeout(function() {
+    const firstName = ref('');
+    const lastName = ref('');
+
+    const computedName = computed(() => {
+      return firstName.value + ' ' + lastName.value;
+    });
+
+    setTimeout(function () {
       uName.value = 'Luna';
       uAge.value = 33;
       user.value.name = 'Breko';
@@ -55,8 +68,34 @@ export default {
       user2.age = 50;
     }
 
-    return { userName: uName, age: uAge, user: user, user2: user2, setNewAge };
-  }
+    function setFirstName(event) {
+      firstName.value = event.target.value;
+    }
+
+    function setLastName(event) {
+      lastName.value = event.target.value;
+    }
+
+    watch([uAge, uName], function(newValues, oldValues) {
+      if (newValues[0] >= oldValues[0]) {
+        alert('Vyssi vek');
+      } else {
+        alert('Nizsi vek');
+      }
+    });
+
+    return {
+      userName: uName,
+      age: uAge,
+      user: user,
+      user2: user2,
+      lastName,
+      setNewAge,
+      setFirstName,
+      setLastName,
+      computedName,
+    };
+  },
 };
 </script>
 
