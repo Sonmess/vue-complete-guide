@@ -1,7 +1,8 @@
 <template>
   <section class="container">
-    <h2>{{ userName }}</h2>
-    <p>{{ age }}</p>
+    <!-- <h2>{{ userName }}</h2>
+    <p>{{ age }}</p> -->
+    <user-data :user-name="userName" :age="age"></user-data>
 
     <div>
       <h3>{{ user }}</h3>
@@ -18,21 +19,27 @@
     <button @click="setNewAge">Set age</button>
 
     <div>
-      <h3>Name: {{ computedName }}</h3>
+      <h3>Name: {{ computedName }} / NickName: {{ nickName }}</h3>
       <input type="text" placeholder="First name" @input="setFirstName" />
       <input type="text" placeholder="Last name" v-model="lastName" />
+      <input type="text" placeholder="Nickname" ref="nickNameInput" />
+      <button @click="setNickName">Set nickname</button>
     </div>
   </section>
 </template>
 
 <script>
 import { ref, reactive, computed, watch } from 'vue';
+import UserData from './components/UserData.vue';
 export default {
   // data() {
   //   return {
   //     userName: 'Maximilian',
   //   };
   // },
+  components: {
+    UserData,
+  },
   setup() {
     const uName = ref('Matej');
     const uAge = ref(31);
@@ -49,6 +56,8 @@ export default {
 
     const firstName = ref('');
     const lastName = ref('');
+    const nickName = ref('');
+    const nickNameInput = ref(null);
 
     const computedName = computed(() => {
       return firstName.value + ' ' + lastName.value;
@@ -76,6 +85,10 @@ export default {
       lastName.value = event.target.value;
     }
 
+    function setNickName() {
+      nickName.value = nickNameInput.value.value;
+    }
+
     watch([uAge, uName], function(newValues, oldValues) {
       if (newValues[0] >= oldValues[0]) {
         alert('Vyssi vek');
@@ -93,7 +106,10 @@ export default {
       setNewAge,
       setFirstName,
       setLastName,
+      setNickName,
       computedName,
+      nickName,
+      nickNameInput
     };
   },
 };
